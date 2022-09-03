@@ -10,7 +10,7 @@ A live demonstration of PixelGL is available on the author's website:
 
 [http://matthewlynch.net/projects/PixelGL/](http://matthewlynch.net/projects/PixelGL/)
 
-# Local Hosting & Cross-Origin Resource Sharing (CORS) Errors
+# Cross-Origin Resource Sharing (CORS) Errors
 PixelGL uses fetch() to load the required WebGL shaders. This will cause Cross-Origin Resource Sharing (CORS) errors if you are using PixelGL from a local filesystem.
 
 For local hosting, it is recommended you use a lightweight web server like [Fenix](http://fenixwebserver.com/), which will allow you to avoid CORS errors with minimal overhead and setup required.
