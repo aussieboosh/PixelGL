@@ -1,0 +1,168 @@
+body
+{
+	margin: 20px;
+	background-color: #141414;
+	color: #FFFFFF;
+}
+
+div.container
+{
+    width: 984px;
+    max-width: 984px;
+    margin: auto;
+}
+
+/* OUTPUT CARD */
+
+div.output-card
+{
+    display: block;
+    box-sizing: border-box;
+    
+    width: 984px;
+
+    padding: 12px;
+    
+    margin: 0;
+    margin-bottom: 12px;
+
+    border-radius: 8px;
+
+    background-color: #191c24;
+
+    font-family: 'Quicksand', sans-serif;
+    font-size: 11pt;
+}
+
+div.output-card canvas 
+{
+    display: block;
+    box-sizing: border-box;
+
+	width: 960px;
+	height: 640px;
+
+    margin: 0;
+
+    padding: 0;
+
+	background-color: magenta;
+}
+
+/* HEADER CARD */
+
+.header-card
+{
+    display: block;
+    box-sizing: border-box;
+    justify-content: center;
+    text-align: center;
+
+    width: 984px;
+
+    margin: 0;
+    margin-top: 24px;
+    margin-bottom: 12px;
+
+    padding: 8px;
+    padding-left: 12px;
+    padding-right: 12px;
+
+    background-color: #191C24;
+
+    border-radius: 8px;
+
+    font-family: 'Questrial', sans-serif;
+    font-size: 12pt;
+}
+
+/* STATS CARD */
+
+.stats-card
+{
+    display: block;
+    box-sizing: border-box;
+
+    width: 100%;
+
+    margin: 0;
+    margin-bottom: 12px;
+    
+    padding: 12px;
+
+    background-color: #191C24;
+
+    border-radius: 8px;
+
+	text-align: center;
+    
+    font-family: 'Quicksand', sans-serif;
+    font-size: 11pt;
+}
+
+.stats-card span
+{
+	padding: 0;
+    margin: 0;
+	line-height: normal;
+}
+
+.stats-card span.stat
+{
+	color: goldenrod;
+}
+
+/* INFO CARD */
+
+.info-card
+{
+    display: block;
+    box-sizing: border-box;
+
+    width: 100%;
+
+    margin: 0;
+    margin-bottom: 12px;
+    
+    padding: 12px;
+
+    background-color: #191C24;
+
+    border-radius: 8px;
+    
+    font-family: 'Quicksand', sans-serif;
+    font-size: 11pt;
+}
+
+.info-card h1
+{
+    padding: 0;
+    margin: 0;
+    margin-bottom: 6pt;
+    line-height: normal;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 12pt;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+.info-card h1 a
+{
+    color: goldenrod;
+    text-decoration: none;
+}
+
+.info-card p
+{
+    padding: 0;
+    margin: 0;
+    margin-bottom: 6pt;
+    line-height: normal;
+}
+
+.info-card p a
+{
+    color: goldenrod;
+    text-decoration: underline;
+}
+

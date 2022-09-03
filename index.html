@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>PixelGL - Fast Direct Pixel Manipulation for Javascript</title>
+
+	<meta name="description" content="PixelGL is a simple WebGL wrapper that allows easy and fast direct pixel manipulation (60fps+).">
+
+	<link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" href="style.css"/>
+	
+	<script src="js/NUM.js"></script>
+	<script src="js/DOM.js"></script>
+	<script src="js/PixelGL.js"></script>
+
+</head>
+
+<body>
+	
+	<div class="container">
+
+		<div class="header-card"><b>PixelGL Demonstration</b></div>
+
+		<div class="output-card">
+			<canvas id="canvas"></canvas>
+		</div>
+
+		<div class="stats-card">
+			<span>Generation Time: </span><span id="outputGenerationTime" class="stat">-</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>Render Time: </span><span id="outputRenderTime" class="stat">-</span>
+		</div>
+
+		<div class="info-card">
+			<p>The getImageData() and putImageData() calls in Canvas 2D are powerful tools that are compatible with many other 2D operations, but they carry significant overhead that makes them a poor choice for direct and frequent manipulation of large numbers of pixels.</p>
+			<p>PixelGL is a lightweight WebGL wrapper that aims to eliminate this overhead and provide an alternate method of working with large quantities of pixels while maintaining a high frame rate (e.g. 60FPS).</p>
+			<p><a href="https://github.com/aussieboosh/PixelGL">The source code for PixelGL and this demonstration are available on GitHub.</a></p>
+			<p>It is important to recognise that PixelGL is only targeted at the direct manipulation of pixels and lacks many of the other tools that Canvas 2D provides. PixelGL can be used to supplement a second canvas using Canvas 2D, however there will be a trade-off in performance.</p>
+			<p>It is also important to recognise that when working with a large number of pixels, you are working with a large set of data and it can be easy to create performance bottlenecks when processing the data. For example, in this demonstration the generation of noise patterns takes almost three times longer than the actual rendering of the pixels in most browsers.</p>
+		</div>
+
+	</div>
+
+	<script type="text/javascript">
+
+		let pixelGL = null;
+		let generationTimes = [];
+		let renderTimes = [];
+
+		/********************************************************************************
+		 * Initialization of the demonstration.
+		 * 
+		 *******************************************************************************/
+		async function initialize()
+		{
+			pixelGL = new PixelGL("canvas", 960, 640);
+
+			if(pixelGL.safe)
+			{
+				await pixelGL.initialize("shaders/pixelGL.vert", "shaders/pixelGL.frag");
+			}
+
+			if(pixelGL.initialized)	
+			{
+				requestAnimationFrame(update);
+			}
+		}
+
+		/********************************************************************************
+		 * Main loop of the demonstration, called each animation frame.
+		 * 
+		 *******************************************************************************/
+		function update()
+		{
+			const generationBegin = performance.now();
+
+			generatePattern();
+
+			const generationFinish = performance.now();
+
+			pixelGL.render();
+
+			requestAnimationFrame(update);
+
+			generationTimes.push(generationFinish - generationBegin);
+			renderTimes.push(pixelGL.lastRenderDuration);
+
+			if(generationTimes.length == 25)
+			{
+				let avgGenerationTime = generationTimes.reduce((a, b) => a + b, 0) / generationTimes.length;
+				let avgRenderTime = renderTimes.reduce((a, b) => a + b, 0) / renderTimes.length;
+
+				DOM.set("outputGenerationTime", `${avgGenerationTime.toFixed(3)}ms`);
+				DOM.set("outputRenderTime", `${avgRenderTime.toFixed(3)}ms`);
+
+				generationTimes = [];
+				renderTimes = [];
+			}
+		}
+
+		/********************************************************************************
+		 * Uses Mersenne primes and some basic arithmatic to generate a noisy pattern
+		 * that starts with a pseudo-random seed.
+		 * 
+		 *******************************************************************************/
+		function generatePattern()
+		{
+			let seed = NUM.randomInt(0, 8388607);
+
+			for(let x = 0; x < pixelGL.width; x++)
+			{
+				for(let y = 0; y < pixelGL.height; y++)
+				{
+					seed += ((y) % 7)? 61: 127;
+					let red = seed % 200;
+
+					seed += ((y) % 13)? 89: 521;
+					let green = seed % 200;
+
+					seed += ((x) % 17)? 107: 607;
+					let blue = seed % 200;
+
+					let alpha = 255;
+
+					pixelGL.setPixel(x, y, red, green, blue, alpha);
+				}
+			}
+		}
+		
+		DOM.on(document, "DOMContentLoaded", initialize);
+
+	</script>
+
+</body>
+</html>
+
+
